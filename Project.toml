@@ -1,0 +1,7 @@
+name = "AdaFVF"
+uuid = "cf8caba4-ed6c-11e8-008a-51e3fb68a689"
+authors = ["Vincent Moens <Vincent.Moens@aig.com>"]
+version = "0.1.0"
+
+[deps]
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
