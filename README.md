@@ -43,7 +43,7 @@ julia> using AdaFVF
 ```
 Given a `Flux.jl` model `MyModel`, get the parameters and create an optimiser:
 ```
-julia> P = parameters(MyModel)
+julia> P = params(MyModel)
 julia> adafvf = Adafvf(P)
 ```
 
