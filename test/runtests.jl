@@ -3,12 +3,13 @@ import Flux: Tracker, Optimise
 
 println("Testing grad update...")
 
-MyModel = Chain(Dense(30,30,σ),Dense(30,10))
-P = parameters(MyModel) 
+MyModel = Chain(Dense(30,30,elu),Dense(30,10))
+P = params(MyModel) 
 adafvf = AdaFVF.Adafvf(P)
 
-loss = sum(MyModel(randn(30,100))
-Flux.Tracker.back!(loss)
+X = randn(30,100)
+loss = sum(MyModel(X))
+Tracker.back!(loss)
 
 adafvf()
 

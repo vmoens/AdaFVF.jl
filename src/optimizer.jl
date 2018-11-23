@@ -17,7 +17,7 @@ function adafvf(p::Param; η::Real = 0.001,
   Count = 1
   function ()
     grad = p.Δ
-    if NAN_CECK
+    if NAN_CHECK
         if checkNaN(grad)
 		grad .= 0.0
 		return grad
