@@ -3,17 +3,17 @@ import Flux: Tracker, Optimise
 
 println("Testing grad update...")
 
-MyModel = Chain(Dense(30,30,elu),Dense(30,10))
+MyModel = Chain(Dense(30,128,elu),Dense(128,128,elu),Dense(128,128,elu),Dense(128,1))
 P = params(MyModel) 
 adafvf = AdaFVF.Adafvf(P)
 
-X = randn(30,100)
-loss = sum(MyModel(X))
+X = randn(30,32)
+loss = sum(MyModel(X))/32
 Tracker.back!(loss)
 
 adafvf()
 
-println("Update time for 2-layer ANN...")
+println("Update time for 4-layer ANN...")
 t = @elapsed adafvf()
 println("done (took $t seconds).")
 
