@@ -2,7 +2,7 @@ import Flux.Optimise: Param
 function adafvf(p::Param; η::Real = 0.001, 
 		κ::Real=1e-10 , α::Real=2.0 , β::Real=1e-10 , ϕᵅ₁::Real=9.5 , ϕᵝ₁::Real=.5 , ϕᵅ₂::Real=99.0 , ϕᵝ₂::Real=1., βᵅ::Real = 20.0, βᵝ::Real = 20.0,
 		ϵ::Real = 1e-8)
-  
+   
   μt = zeros(size(p.x))
   βt = ones(size(p.x)) * β
   αt = α
@@ -16,6 +16,13 @@ function adafvf(p::Param; η::Real = 0.001,
   cc = 0
   Count = 1
   function ()
+    grad = p.Δ
+    if NAN_CECK
+        if checkNaN(grad)
+		grad .= 0.0
+		return grad
+	end
+    end
     μtm1,βtm1 = copy.((μt,βt))
     κtm1,αtm1 = αt,κt
     ϕᵅ₁tm1,ϕᵝ₁tm1,ϕᵅ₂tm1,ϕᵝ₂tm1,βᵅtm1,βᵝtm1 = ϕᵅ₁t,ϕᵝ₁t,ϕᵅ₂t,ϕᵝ₂t,βᵅt,βᵝt
@@ -26,12 +33,11 @@ function adafvf(p::Param; η::Real = 0.001,
 
     d = Inf
     i = 0
-    c = .3
+    c = 0.3
     old_elbo = curr_elbo
     
     v = [ϕᵅ₁t,ϕᵝ₁t,ϕᵅ₂t,ϕᵝ₂t,βᵅt,βᵝt] # beta parameters
 
-    grad = p.Δ
     while true
         αt, κt = updNIGloop!(grad,
 		    μt,βt,

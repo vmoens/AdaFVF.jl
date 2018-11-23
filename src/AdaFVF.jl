@@ -5,6 +5,7 @@ using Flux: Tracker, Optimise
 import Flux.Optimise: optimiser, invdecay, descent
 GRAD_SAMPLING = false
 NORMALIZED_DIFF = true
+NAN_CHECK = true
 include("interface.jl")
 include("optimizer.jl")
 
