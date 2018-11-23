@@ -1,11 +1,12 @@
-using Pkg
-Pkg.activate("./")
-using Flux, AdaFVF
-P = [param(randn(30,30))]
+using AdaFVF,Flux
+import Flux: Tracker, Optimise
+
+MyModel = Chain(Dense(30,30,σ),Dense(30,10))
+P = parameters(MyModel) 
 opt = AdaFVF.Adafvf(P)
 
-L = sum(P[1] .* P[1])
-Flux.Tracker.back!(L)
+loss = sum(MyModel(randn(30,100))
+Flux.Tracker.back!(loss)
 
 opt()
 opt()
