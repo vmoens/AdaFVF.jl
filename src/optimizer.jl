@@ -30,10 +30,9 @@ function adafvf(p::Param; η::Real = 0.001,
     βᵅt = 0.999 * (βᵅt - 1.0) + 1.0
     βᵝt = 0.999 * (βᵝt - 1.0) + 1.0
 
-
     d = Inf
     i = 0
-    c = 0.3
+    c = 0.6
     old_elbo = curr_elbo
     
     v = [ϕᵅ₁t,ϕᵝ₁t,ϕᵅ₂t,ϕᵝ₂t,βᵅt,βᵝt] # beta parameters

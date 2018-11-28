@@ -1,8 +1,8 @@
-@inline function sub_∇ELBO!(∇α::Array{Float64,1},Eα1::Float64, Vα1::Float64, Eα2::Float64, Vα2::Float64,
+@noinline function sub_∇ELBO!(∇α::Array{Float64,1},Eα1::Float64, Vα1::Float64, Eα2::Float64, Vα2::Float64,
 			       μₓ::Array{Float64,S},κₓ::Float64, αₓ::Float64, βₓ::Array{Float64,S}, 
 			      μτm1::Array{Float64,S}, κτm1::Float64, ατm1::Float64, βτm1::Array{Float64,S}, 
 			      κ₀::Float64, α₀::Float64, β₀::Float64, digamma_a::Float64) where S
-	L::Float64=0.0
+	L::Float64 = 0.0
 	for k in eachindex(μₓ)
 	        L += ∇ELBO_lower1!(∇α,Eα1, Vα1, Eα2, Vα2,μₓ[k],  κₓ, αₓ, βₓ[k], μτm1[k], κτm1, ατm1, βτm1[k], κ₀, α₀, β₀, digamma_a)
 	end
@@ -94,7 +94,7 @@ end
             _tmp146::Float64 = Eα1 * _tmp217
             _tmp145::Float64 = _tmp201 * _tmp217
             _tmp136::Float64 = _tmp118 * _tmp217
-            _tmp133::Float64 = _tmp217 ^ 1 
+            _tmp133::Float64 = _tmp217 
             _tmp147::Float64 = Eα1 * _tmp243
             _tmp142::Float64 = _tmp118 * _tmp243
             _tmp197::Float64 = _tmp118 * _tmp248 + _tmp200 * _tmp217
@@ -184,7 +184,7 @@ end
             _tmp228::Float64 = _tmp102 * _tmp233
             _tmp187::Float64 = _tmp183 * _tmp233
             _tmp189::Float64 = _tmp226 * _tmp233
-            _tmp240::Float64 = 2 * _tmp164 ^ 1 * _tmp233
+            _tmp240::Float64 = 2 * _tmp164 * _tmp233
             _tmp252::Float64 = _tmp100 * (_tmp164 * _tmp210 + _tmp202 * _tmp228) + _tmp164 * _tmp226
             _tmp196::Float64 = -((Eα1 * Eα2 ^ 2 * _tmp118 * _tmp254 + _tmp155 * _tmp97 + _tmp9) * _tmp217) * _tmp121
             _tmp195::Float64 = Eα2 * (_tmp174 + _tmp196)
@@ -242,7 +242,7 @@ end
             _tmp2 = Count + αᵅ
             _tmp10 = _tmp11 + _tmp13 + digamma(_tmp2)
             _tmp1 = exp(((_tmp3 + lgamma(_tmp2)) - _tmp4) - lgamma(_tmp5))
-            _tmp17 = _tmp1 ^ 1
+            _tmp17 = _tmp1 
             v = vcat(_tmp1, _tmp6 - _tmp1 ^ 2)
             D1 .= begin  # /Users/OldVince/Dropbox/Julia/adawhatever/../NDiff/NDiff.jl, line 204:
                     reshape([_tmp1 * _tmp10, _tmp1 * _tmp14, (_tmp11 + _tmp18 + digamma(_tmp7)) * _tmp6 + -(2 * _tmp1 * _tmp10 * _tmp17), (_tmp15 + _tmp16 + _tmp18) * _tmp6 + -(2 * _tmp1 * _tmp14 * _tmp17)], (2, 2))
@@ -266,14 +266,14 @@ end
             _tmp17 = 1 / _tmp18
             _tmp38 = -(_tmp17 ^ 2)
             _tmp27 = 0.5_tmp17
-            _tmp37 = _tmp17 ^ 1 * _tmp38
+            _tmp37 = _tmp17 * _tmp38
             _tmp7 = _tmp15 * _tmp38
             _tmp26 = -(_tmp19 * _tmp38) + (_tmp10 * trigamma(_tmp11)) * _tmp10
             _tmp30 = -(_tmp21 * _tmp38)
             _tmp32 = -(2 * _tmp13 * _tmp37)
             _tmp31 = -(Eα2 * _tmp15 * _tmp37)
             v = (((-(lgamma(_tmp11)) - 0.5 * (Vα1 * _tmp30 + Vα2 * _tmp26)) + 0.5 * log(_tmp18)) - 0.918938533204673) * N
-            D1 .= reshape([(-((-(0.5 * (_tmp13 ^ 1 * _tmp7 + _tmp20 * _tmp31)) * Vα2 + -(_tmp21 * _tmp31) * Vα1) * 0.5) + _tmp23 * _tmp27) * N, -(0.5_tmp30) * N, (-(0.5 * (-(0.5 * (_tmp22 * _tmp32 + _tmp23 ^ 1 * _tmp7)) * Vα1 + (-(_tmp19 * _tmp32) + ((_tmp10 * polygamma(2, _tmp11)) * _tmp10) * _tmp10) * Vα2)) + -(_tmp10 * digamma(_tmp11)) + _tmp13 * _tmp27) * N, -(0.5_tmp26) * N], (4,))
+            D1 .= reshape([(-((-(0.5 * (_tmp13 * _tmp7 + _tmp20 * _tmp31)) * Vα2 + -(_tmp21 * _tmp31) * Vα1) * 0.5) + _tmp23 * _tmp27) * N, -(0.5_tmp30) * N, (-(0.5 * (-(0.5 * (_tmp22 * _tmp32 + _tmp23 * _tmp7)) * Vα1 + (-(_tmp19 * _tmp32) + ((_tmp10 * polygamma(2, _tmp11)) * _tmp10) * _tmp10) * Vα2)) + -(_tmp10 * digamma(_tmp11)) + _tmp13 * _tmp27) * N, -(0.5_tmp26) * N], (4,))
         v
     end
 
