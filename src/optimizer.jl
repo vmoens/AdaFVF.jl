@@ -1,6 +1,6 @@
 import Flux.Optimise: Param
 function adafvf(p::Param; η::Real = 0.001, 
-		κ::Real=1e-10 , α::Real=2.0 , β::Real=1e-10 , ϕᵅ₁::Real=9.5 , ϕᵝ₁::Real=.5 , ϕᵅ₂::Real=99.0 , ϕᵝ₂::Real=1., βᵅ::Real = 20.0, βᵝ::Real = 20.0,
+		κ::Real=1e-10 , α::Real=2.0 , β::Real=1e-10 , ϕᵅ₁::Real=0.9 , ϕᵝ₁::Real=.1 , ϕᵅ₂::Real=9.9 , ϕᵝ₂::Real=0.1, βᵅ::Real = 20.0, βᵝ::Real = 20.0,
 		ϵ::Real = 1e-8)
    
   μt = zeros(size(p.x))

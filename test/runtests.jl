@@ -1,4 +1,4 @@
-using AdaFVF,Flux,Random,Profile
+using AdaFVF,Flux,Random,Profile, Statistics, Random
 import Flux: Tracker, Optimise
 
 function zero_grads!(P)
@@ -47,3 +47,35 @@ println("done (took $t seconds).")
 f(2)
 Profile.@profile adafvf()
 Profile.print(format=:flat)
+
+
+
+function g(ms,x)
+	m = ms[1]
+	s = exp(ms[2])
+	(x - m)^2 / 2 / s + ms[2] / 2
+end
+nX = 10000
+X = -2.0 .+ 10 .* randn(nX)
+function testopt(opt,ms)
+for k in 1:10000
+#	k % 1000 == 0 && (@show k, Tracker.data(ms))
+	data = X[randperm(nX)[1:20]]
+	loss = mean(map(data->g(ms,data),data))
+	Tracker.back!(loss)
+	opt()
+	ms.grad .= 0
+end
+return ms[1],exp(ms[2])
+end
+
+ms0 = randn(2)
+for s in (0.1, 0.01, 0.001, 0.0001)
+	@show s
+	ms = param(ms0)
+	adafvf = AdaFVF.Adafvf([ms],s)
+	@show testopt(adafvf,ms)
+	ms = param(ms0)
+	adam = ADAM([ms],s)
+	@show testopt(adam,ms)
+end
