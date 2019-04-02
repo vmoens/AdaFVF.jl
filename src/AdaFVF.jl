@@ -12,15 +12,17 @@ end
 
 using Flux, SpecialFunctions
 using Flux: Tracker, Optimise
-import Flux.Optimise: optimiser, invdecay, descent
+import SpecialFunctions: polygamma
+import Flux.Optimise: apply!
+using Zygote
 
-export Adafvf
+export ADAFVF, ADAFVFHD
 
 @mainDef GRAD_SAMPLING = false
 @mainDef NORMALIZED_DIFF = true
 @mainDef NAN_CHECK = true
 
-include("interface.jl")
+include("grad.jl")
+include("elbo.jl")
 include("optimizer.jl")
-
 end # module

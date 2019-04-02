@@ -57,10 +57,10 @@ function g(ms,x)
 end
 nX = 10000
 X = -2.0 .+ 10 .* randn(nX)
-function testopt(opt,ms)
+function testopt(opt,ms,l)
 for k in 1:10000
 #	k % 1000 == 0 && (@show k, Tracker.data(ms))
-	data = X[randperm(nX)[1:20]]
+	data = X[randperm(nX)[1:l]]
 	loss = mean(map(data->g(ms,data),data))
 	Tracker.back!(loss)
 	opt()
@@ -70,12 +70,14 @@ return ms[1],exp(ms[2])
 end
 
 ms0 = randn(2)
+for k in (3,5,10,20)
 for s in (0.1, 0.01, 0.001, 0.0001)
-	@show s
+	@show s,k
 	ms = param(ms0)
 	adafvf = AdaFVF.Adafvf([ms],s)
-	@show testopt(adafvf,ms)
+	@show testopt(adafvf,ms,k)
 	ms = param(ms0)
 	adam = ADAM([ms],s)
-	@show testopt(adam,ms)
+	@show testopt(adam,ms,k)
+end
 end
