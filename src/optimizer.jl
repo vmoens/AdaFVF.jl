@@ -111,7 +111,7 @@ end
 
 
         grad = Δ
-        if NAN_CHECK
+	if NAN_CHECK[]
             if checkNaN(grad)
             grad .= 0.0
             return grad
@@ -142,7 +142,7 @@ end
                 μtm1, κtm1, αtm1, βtm1, ϕᵅ₁tm1, ϕᵝ₁tm1, ϕᵅ₂tm1, ϕᵝ₂tm1, βᵅtm1, βᵝtm1,
                       κ   , α   , β,    ϕᵅ₁   , ϕᵝ₁   , ϕᵅ₂   , ϕᵝ₂   , βᵅ   , βᵝ,
                       c)
-            d = abs(elbo - old_elbo) / (NORMALIZED_DIFF ? 1 : n) # normalized ELBO
+	    d = abs(elbo - old_elbo) / (NORMALIZED_DIFF[] ? 1 : n) # normalized ELBO
 
             old_elbo = elbo
 
@@ -303,17 +303,15 @@ function iCov(αᵅ, βᵅ)
     Λα = [C - B; -B A] / (-B*B + A*C)
 end
 
-if GRAD_SAMPLING
     @inline function randNIG(m, k, a, b)
-        s = rand(Distributions.InverseGamma(a,b))
-        m2 = m + sqrt(s / k) * randn()
-        m2 / sqrt(s + m2^2)
+	if GRAD_SAMPLING[]
+        	s = rand(Distributions.InverseGamma(a,b))
+	        m2 = m + sqrt(s / k) * randn()
+        	m2 / sqrt(s + m2^2)
+	else
+		a > one(a) ? m / sqrt(m^2 + b / (a - 1) / k + b / (a - 1)) : m / sqrt(m^2 + b / a / k + b / a)
+	end
     end
-else
-    @inline function randNIG(m, k, a, b)
-        a > one(a) ? m / sqrt(m^2 + b / (a - 1) / k + b / (a - 1)) : m / sqrt(m^2 + b / a / k + b / a)
-    end
-end
 
 
 checkNaN(x::Real) = !isfinite(x)

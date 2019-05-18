@@ -32,7 +32,7 @@ function ∇ELBOtotal!(∇₆::AbstractArray{R,1},
 	        L::R += ∇logpart_cst1!(∇,N,Eα1,Vα1,Eα2,Vα2,ατm1,α₀,κτm1,κ₀)
 		∇α[1:2] .+= ∇EVα1*∇[1:2]
 		∇α[3:4] .+= ∇EVα2*∇[3:4]
-	        if NORMALIZED_DIFF
+		if NORMALIZED_DIFF[]
 	                ∇α ./= N
 	                L::R /= N
 	        end
